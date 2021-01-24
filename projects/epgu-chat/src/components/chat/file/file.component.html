@@ -1,0 +1,28 @@
+<div *ngFor="let file of filesInfo; let i = index; trackBy: trackByFn;" class="file">
+
+  <img [attr.src]="file.name || file.messageContent.name | fileName">
+
+  <div class="file-description">
+
+    <span>{{file.name || file.messageContent.name}}</span>
+
+    <div class="file-remove">
+
+      <span (click)="removeFile(i)" #removeBtn>Отменить</span>
+      <span>{{file.size || file.messageContent.size | fileSize}}</span>
+
+    </div>
+
+    <div *ngIf="date" class="date">
+
+      <arm-spinner *ngIf="loading"
+                   [config]="{diameter: 20}">
+      </arm-spinner>
+
+      <span>{{date.getTime() | messageDate}}</span>
+
+    </div>
+
+  </div>
+
+</div>

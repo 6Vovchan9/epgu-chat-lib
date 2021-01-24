@@ -1,0 +1,25 @@
+.serviced-houses-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    lib-dropdown {
+      min-width: 300px;
+    }
+
+    lib-lookup {
+      min-width: 40%;
+    }
+  }
+
+  lib-paging-controls {
+    margin-top: 20px;
+    cursor: pointer;
+  }
+}

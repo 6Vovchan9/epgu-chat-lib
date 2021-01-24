@@ -1,0 +1,63 @@
+<form [formGroup]="form" #messageElement>
+
+  <div class="message-content">
+
+    <div style="position:absolute; display: flex; flex-direction: column; width: 100%; bottom: 0;">
+
+      <ng-container *ngIf="messageState && messageState.action || participants && participants.length">
+
+        <ng-template *ngIf="showMessageAction && messageState.action === 'editMessage' && message; then editMessage"></ng-template>
+        <ng-template *ngIf="showMessageAction && messageState.action === 'replyMessage'; then replyMessage"></ng-template>
+        <ng-template *ngIf="participants && participants.length; then participantsTemplate"></ng-template>
+
+      </ng-container>
+
+      <ng-container *ngIf="editorConfig">
+        <ckeditor
+          [formControlName]="'messageContent'"
+          [editor]="editor"
+          (change)="onChange($event)"
+          [config]="editorConfig"
+          [ngClass]="{'ckeditor-border' : messageState && messageState.action && messageState.action !== 'deleteMessage' && messageState.action !== 'goToQuote' || participants && participants.length}"
+          #htmlEditor>
+        </ckeditor>
+      </ng-container>
+
+    </div>
+  </div>
+
+</form>
+
+<ng-template #editMessage>
+  <div class="action-message-container edit-message">
+    <span class="edit-tittle">Редактирование</span>
+    <span *ngIf="message && message.messageContent">{{message.messageContent.text || message.messageContent.question | messageContent}}</span>
+  </div>
+</ng-template>
+
+<ng-template #replyMessage>
+  <div class="reply-message action-message-container">
+
+    <div class="replay-title" style="padding: 14px 0 14px 16px;">
+      <span class="reply-message-name" *ngIf="message && message.user.firstName && message.type !== 'POLL'">@{{message.user.firstName}}</span>
+      <span class="reply-message-name" *ngIf="message && message.type === 'POLL'">Опрос</span>
+    </div>
+
+    <div class="replay-content" style="padding: 14px 16px;">
+      <span *ngIf="message && message.messageContent">{{message.messageContent.text || message.messageContent.question | messageContent}}</span>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #participantsTemplate>
+  <div class="action-message-container participants-container">
+    <div *ngFor="let participant of participants; trackBy: trackByFn;"
+         (click)="setMentionedParticipants(participant)"
+         class="participant">
+      <p>
+        <span *ngIf="participant.firstName || participant.lastName">{{participant.firstName}} {{participant.lastName}}</span>
+      </p>
+    </div>
+  </div>
+</ng-template>

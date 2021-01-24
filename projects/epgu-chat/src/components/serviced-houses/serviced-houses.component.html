@@ -1,0 +1,37 @@
+<div class="serviced-houses-list-container">
+
+  <form *ngIf="formGroup" [formGroup]="formGroup">
+
+    <lib-dropdown *ngIf="items && items.countSort"
+                  [items]="items.countSort"
+                  [formControlName]="'countSort'">
+    </lib-dropdown>
+
+    <lib-dropdown *ngIf="items && items.fieldSort"
+                  [items]="items.fieldSort"
+                  [formControlName]="'fieldSort'">
+    </lib-dropdown>
+
+    <lib-lookup [formControlName]="'search'"
+                [placeholder]="'Адрес или кадастровый номер'"
+                [itemsProvider]="searchProvider">
+    </lib-lookup>
+
+  </form>
+
+  <arm-serviced-houses-list [servicedHousesList]="servicedHousesList"
+                            (activeElementEmit)="openItem($event)">
+  </arm-serviced-houses-list>
+
+  <arm-spinner *ngIf="loading" class="spinner"></arm-spinner>
+
+  <lib-paging-controls *ngIf="paginationShow"
+                       [count]="paginatorConfig.count"
+                       [pageSize]="paginatorConfig.pageSize"
+                       [activePage]="paginatorConfig.activePage"
+                       [tailButtons]="false"
+                       [prevNextButtons]="false"
+                       (pageChanged)="pageChanged($event.page)">
+  </lib-paging-controls>
+
+</div>

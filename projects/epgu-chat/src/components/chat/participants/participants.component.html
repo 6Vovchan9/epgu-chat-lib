@@ -1,0 +1,13 @@
+<div *ngIf="participants" class="participants-container">
+
+  <div *ngFor="let participant of participants; trackBy: trackByFn;" class="participant">
+
+    <b>{{participant.firstName}} {{participant.lastName}}</b>
+
+    <span class="activity-status" [ngStyle]="{'color' : participant.online ? '#16A086' : '#D1D5DF'}">
+        {{participant.online ? 'Online' : 'Offline'}}
+      </span>
+
+  </div>
+
+</div>

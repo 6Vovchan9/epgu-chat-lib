@@ -1,0 +1,20 @@
+<div class="search-container">
+
+  <form [formGroup]="formGroup">
+
+    <lib-lookup [itemsProvider]="searchProvider">
+    </lib-lookup>
+
+  </form>
+
+  <ul>
+
+    <li (click)="setDisplayListFilter('message')" [ngClass]="{'active' : currentDisplayList === 'message'}">Сообщения</li>
+
+    <li (click)="setDisplayListFilter('poll')" [ngClass]="{'active' : currentDisplayList === 'poll'}">Опросы</li>
+
+    <li (click)="setDisplayListFilter('participants')" [ngClass]="{'active' : currentDisplayList === 'participants'}">Участники</li>
+
+  </ul>
+
+</div>

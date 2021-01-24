@@ -1,0 +1,34 @@
+<div class="list-filter-container">
+
+  <form *ngIf="formGroup" [formGroup]="formGroup">
+
+    <div class="house-filter flex-space-between" *ngIf="servicedHousesList">
+      <lib-dropdown [items]="servicedHousesList"
+                    [multi]="true"
+                    [formControlName]="'servicedHousesList'">
+      </lib-dropdown>
+
+      <ng-content></ng-content>
+    </div>
+
+    <div class="flex-space-between">
+
+      <lib-dropdown *ngIf="items && items.selectedRelevance"
+                    [items]="items.selectedRelevance"
+                    [formControlName]="'selectedRelevance'">
+      </lib-dropdown>
+
+      <lib-dropdown *ngIf="items && items.selectedSort"
+                    [items]="items.selectedSort"
+                    [formControlName]="'selectedSort'">
+      </lib-dropdown>
+
+      <lib-lookup [formControlName]="'search'"
+                  [placeholder]="'Заголовок, номер, текст'">
+      </lib-lookup>
+
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,25 @@
+<div class="chat-list-short scroll-hidden">
+
+  <ng-container *ngIf="chatsList">
+    <div *ngFor="let house of chatsList.contents; trackBy: trackByFn;"
+         class="house-data"
+         (click)="setActiveChat(house)">
+
+      <span *ngIf="house.address" class="address">{{house.address}}</span>
+      <span *ngIf="house.cadaster" class="cadastral-number">{{house.cadaster}}</span>
+
+      <div class="bottom"
+           [ngStyle]="{'justify-content' : mentions && mentions[house.chatId] && mentions[house.chatId].length ? 'space-between' : 'flex-start'}">
+
+        <span *ngIf="house.createdDateTime" class="time">{{house.createdDateTime | messageDate  }}</span>
+        <div *ngIf="mentions && mentions[house.chatId] && mentions[house.chatId].length"
+             class="mentions">{{mentions[house.chatId].length}}
+        </div>
+
+      </div>
+
+    </div>
+  </ng-container>
+
+  <arm-spinner *ngIf="loading" class="spinner"></arm-spinner>
+</div>

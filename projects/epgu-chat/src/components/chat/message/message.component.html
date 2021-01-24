@@ -1,0 +1,146 @@
+<div class="messages-container" style="position: relative;">
+
+  <div [ngClass]="{'checkbox-on' : messageState && messageState.messageCheckboxOn}"
+       class="messages scroll-hidden"
+       #messagesElement>
+
+    <ng-template *ngIf="messages; then bubble"></ng-template>
+
+    <arm-spinner *ngIf="loading" class="spinner messages-spinner"></arm-spinner>
+
+    <ng-template *ngIf="goToBottomButtonShow || goToMentionButtonShow; then jumpButtons"></ng-template>
+
+  </div>
+
+  <ng-template *ngIf="messageState && messageState.messageCheckboxOn; then checkedMessage"></ng-template>
+
+  <div class="button-panel">
+
+    <ng-container *ngIf="currentDisplayList && currentDisplayList === 'message'">
+
+      <ng-template *ngIf="messageState && messageState.fileUpload && fileToUpload.length; then fileUpload"></ng-template>
+
+      <div class="attach-button">
+
+        <div *ngIf="fileToUpload && fileToUpload.length" class="counter">{{fileToUpload.length}}</div>
+
+        <label for="file-input">
+          <!-- <img src="assets/img/file/attach.svg" alt="attach"/> -->
+          <svg width="26" height="30" viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M2.6834 18.2571L4.65251 16.1863L13.5132 6.86815C15.1462 5.16362 17.7823 5.16876 19.4092 6.87972C21.0361 8.59069 21.0409 11.3629 19.4202 13.0803L10.5599 22.4012C10.1975 22.7825 9.60964 22.7825 9.24705 22.4012C8.88465 22.0199 8.88465 21.4019 9.24705 21.0206L18.1074 11.6997C19.0135 10.7466 19.0135 9.20181 18.1074 8.24879C17.2012 7.29578 15.7322 7.29578 14.826 8.24879L5.96308 17.5669L3.99397 19.6376C2.36258 21.3539 2.36319 24.136 3.99499 25.8514C5.62698 27.5669 8.27217 27.5665 9.90355 25.8501L11.5441 24.1242L20.7328 14.4607L21.3893 13.7705C23.6839 11.2819 23.6548 7.31722 21.3241 4.86588C18.9932 2.41476 15.2233 2.38411 12.8569 4.79729L3.01196 15.1512C2.77736 15.3977 2.43555 15.4939 2.11535 15.4037C1.79494 15.3134 1.54465 15.0504 1.45884 14.7135C1.37303 14.3765 1.46475 14.0172 1.69915 13.7705L11.5441 3.41686C14.6273 0.189137 19.613 0.195139 22.689 3.43036C25.7653 6.66537 25.771 11.9086 22.7019 15.1512L12.8569 25.5048L11.2139 27.2308C8.8445 29.6242 5.0895 29.5844 2.76676 27.1408C0.443811 24.6974 0.406919 20.7483 2.6834 18.2571Z"
+              fill="#0D4CD3" stroke="#1D5DEB" stroke-width="0.5" />
+          </svg>
+        </label>
+
+        <input type="file"
+               id="file-input"
+               (change)="handleFileInput($event.target.files)"
+               accept=".JPG, .PNG, .GIF, .AVI, .MP4, .3GP, .MPEG, .MOV, .MP3, .FLV, .WMV,.pdf, .doc, .xls, .docx, .xlsx, .txt, .pptx, .pages, .rtf, .ppt, .key, .xlsx, .numbers"
+               multiple>
+
+      </div>
+
+      <arm-entry-field [form]="form"></arm-entry-field>
+
+      <div class="enter-button"
+           (click)="send()"
+           [ngClass]="{'active-enter-button' : enterButtonActive}"
+           #enterButton>
+        <!-- <img src="assets/img/chat/enter.svg" alt="enter"/> -->
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M2.89257 11.0917L1.60146 20.284L26.3502 11.0917L1.59528 1.90546L2.89257 11.0917ZM2.89257 11.0917L8.96154 11.0915"
+            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="currentDisplayList && currentDisplayList === 'poll'">
+
+      <div class="poll-panel">
+
+        <span>Количество опросов: {{this.messages.length}}</span>
+
+        <span routerLink="new-poll">Создать новый опрос</span>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</div>
+
+<ng-template #bubble>
+  <arm-bubble *ngFor="let message of messages; trackBy: trackByFn;"
+              [message]="message">
+  </arm-bubble>
+</ng-template>
+
+<ng-template #checkedMessage>
+  <div class="checked-message">
+    <span>Выбрано: {{messageState.selectedMessageList.length}}</span>
+
+    <ul>
+      <li
+        [ngClass]="{'checked-message-active-button' : messageState.selectedMessageList.length && messageState.selectedMessageList.length === 1}"
+        (click)="replayMessage()">Ответить
+      </li>
+
+      <li [ngClass]="{'checked-message-active-button' : messageState.selectedMessageList.length && downloadButtonShow}"
+          (click)="download()">Скачать
+      </li>
+
+      <li [ngClass]="{'checked-message-active-button' : messageState.selectedMessageList.length}"
+          (click)="deleteMessages()">Удалить у себя
+      </li>
+    </ul>
+
+  </div>
+</ng-template>
+
+<ng-template #fileUpload>
+  <div *ngIf="fileToUpload" class="file-upload scroll-hidden">
+    <arm-file [filesInfo]="fileToUpload" [fileSubscribe]="fileSubscribe"></arm-file>
+  </div>
+</ng-template>
+
+<ng-template>
+
+</ng-template>
+
+<ng-template #jumpButtons>
+  <div class="jump-buttons">
+    <ng-template *ngIf="goToBottomButtonShow; then goToBottomButton"></ng-template>
+    <ng-template *ngIf="goToMentionButtonShow; then goToMentionButton"></ng-template>
+  </div>
+</ng-template>
+
+<ng-template #goToBottomButton>
+  <div (click)="scrollToBottom()">
+    <ng-container *ngTemplateOutlet="goToButton, context: {'param': param}"></ng-container>
+    <ng-template #param>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </ng-template>
+  </div>
+</ng-template>
+
+<ng-template #goToMentionButton>
+  <div (click)="scrollToMention()">
+    <ng-container *ngTemplateOutlet="goToButton, context: {'param': param}"></ng-container>
+    <ng-template #param>@</ng-template>
+  </div>
+</ng-template>
+
+<ng-template #goToButton let-param="param">
+  <div class="go-to-button">
+    <ng-container *ngTemplateOutlet="param"></ng-container>
+    <ng-container *ngTemplateOutlet="redIndicator"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #redIndicator>
+  <div class="red-indicator"></div>
+</ng-template>

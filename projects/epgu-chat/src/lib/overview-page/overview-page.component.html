@@ -1,0 +1,18 @@
+<div class="overview-page-container">
+  <h1>Обзор</h1>
+
+  <div *ngIf="settingsShow" id="settings">
+    <h3>Получите доступ к настройке услуг</h3>
+    <text>Включите API, чтобы работать с коммерчискими услугами, которые вы оказываете жителям домов</text>
+    <span routerLink="/management-company/settings">Перейти в «Настройки и API»</span>
+
+    <div id="close-settings" (click)="settingsShow = !settingsShow"></div>
+  </div>
+
+  <arm-wizard></arm-wizard>
+
+  <h2>Дома на обслуживании</h2>
+
+  <arm-serviced-houses></arm-serviced-houses>
+
+</div>

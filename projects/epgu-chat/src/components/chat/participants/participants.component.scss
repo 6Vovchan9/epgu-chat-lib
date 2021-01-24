@@ -1,0 +1,24 @@
+.participants-container {
+  padding: 24px;
+
+  .participant {
+    width: 100%;
+    height: 56px;
+    padding: 16px 24px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 24px 48px rgba(230, 235, 245, 0.4);
+    border-radius: 12px;
+    background-color: #fff;
+
+    b, .activity-status {
+      font-family: 'Lato', sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 24px; color: #0B1F33;
+    }
+  }
+}

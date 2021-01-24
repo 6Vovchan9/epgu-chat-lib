@@ -1,0 +1,28 @@
+<div *ngIf="servicedHousesList" class="serviced-houses-list-container">
+
+  <div class="list-element" *ngIf="checkboxOn">
+
+    <div>
+
+      <lib-checkbox *ngIf="checkboxOn" (change)="setAllBuildingsChecked()" [checked]="allBuildingsChecked"></lib-checkbox>
+
+      <span>Все дома</span>
+
+    </div>
+  </div>
+
+  <div *ngFor="let house of servicedHousesList.contents; trackBy: trackByFn;"
+       class="list-element"
+       [ngClass]="{'arrow' : !checkboxOn}"
+       (click)="setActiveElement(house)">
+
+    <div>
+
+      <lib-checkbox *ngIf="checkboxOn" (change)="checkBuilding(house.id)" [checked]="checkBuildings[house.id]"></lib-checkbox>
+
+      <span *ngIf="house.address" class="address">{{house.address}}</span>
+
+    </div>
+    <span *ngIf="house.cadaster" class="cadastral-number">{{house.cadaster}}</span>
+  </div>
+</div>

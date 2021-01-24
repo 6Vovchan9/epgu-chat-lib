@@ -1,0 +1,44 @@
+<div class="new-poll-page-container">
+  <h1>Создать опрос</h1>
+
+  <div class="new-poll-block">
+
+    <form *ngIf="formGroup" [formGroup]="formGroup">
+
+      <div class="question-topic">
+        <label>Тема опроса</label>
+        <input formControlName="question" type="text" />
+      </div>
+
+      <div formArrayName="answerOptions">
+        <div *ngFor="let answer of formGroup.controls['answerOptions']['controls']; let i = index" class="option-block">
+
+          <div class="option">
+            <label>Вариант ответа {{i + 1}}</label>
+            <input class="form-control" formControlName="{{i}}" />
+          </div>
+
+          <div class="remove-block">
+            <mat-icon>delete</mat-icon>
+            <span (click)="removeOption(i)">Удалить</span>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+
+    <div class="add-block" (click)="addOption()">
+      <mat-icon>add_circle_outline</mat-icon>
+      <span>Добавить вариант</span>
+    </div>
+
+  </div>
+
+  <arm-spinner *ngIf="loading" class="spinner poll-spinner"></arm-spinner>
+
+  <button [disabled]="buttonDisable"
+          [ngClass]="{'disable-active' : buttonDisable}"
+          (click)="sendPoll()">Продолжить</button>
+
+</div>

@@ -1,0 +1,32 @@
+<div *ngIf="message.messageContent" class="file">
+
+  <div class="file-wrapper">
+
+    <img [attr.src]="message.messageContent.originalFileName | fileName">
+
+    <div class="file-description">
+
+      <span>{{message.messageContent.originalFileName}}</span>
+
+      <div class="file-remove">
+
+        <arm-spinner *ngIf="loading"
+                     [config]="{diameter: 20}">
+        </arm-spinner>
+
+        <span>{{message.messageContent.size.sizeByte | fileSize}}</span>
+
+        <span (click)="downloadFile(message.messageContent.url, message.messageContent.mimeType, message.messageContent.originalFileName)">Скачать</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="preview">
+
+    <img alt="" (click)="openPicture()" #img />
+
+  </div>
+</div>

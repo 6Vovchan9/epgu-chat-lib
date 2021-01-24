@@ -1,0 +1,40 @@
+.search-container {
+  max-width: calc(100% - 100px);
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  form {
+    max-width: 500px;
+    width: 100%;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    .active {
+      color: #EE3F58;
+    }
+  }
+
+  li {
+    float: left;
+    cursor: pointer;
+    padding: 20px;
+    color: #0D4CD3;
+  }
+
+  li:hover {
+    color: #111;
+  }
+
+  ul li:focus {
+    outline: 0;
+  }
+
+}

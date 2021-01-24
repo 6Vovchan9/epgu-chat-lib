@@ -1,0 +1,60 @@
+.serviced-houses-list-container {
+  display: flex;
+  flex-direction: column;
+
+  .list-element {
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    max-width: 1200px;
+    box-shadow: 0 24px 48px rgba(230, 235, 245, 0.4);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    background-color: #fff;
+
+    div {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .address {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .cadastral-number {
+      color: #747B82;
+      font-size: 14px;
+    }
+  }
+
+  .list-element:active {
+    background-color: rgba(29, 93, 235, 0.18);
+  }
+
+  .arrow::before, .arrow::after {
+    content: "";
+    width: 10px;
+    height: 2px;
+    background-color: #0D4CD3;
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+  }
+
+  .arrow::before {
+    transform: rotate(45deg) translate(-4px, 0);
+  }
+
+  .arrow::after {
+    transform: rotate(-45deg) translate(-4px, 0);
+  }
+}

@@ -1,0 +1,27 @@
+.photo-preview-container {
+  position: relative;
+
+  img {
+    max-width: 100%;
+    max-height: 700px;
+    height: 100%;
+    margin: 0;
+    display: flex;
+  }
+
+  .buttons {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+
+    mat-icon {
+      cursor: pointer;
+      color: #fff;
+    }
+  }
+
+}

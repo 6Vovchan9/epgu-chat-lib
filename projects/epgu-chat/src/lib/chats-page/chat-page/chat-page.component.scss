@@ -1,0 +1,26 @@
+.chat-page-container {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 210px);
+  box-sizing: border-box;
+  border: 1px solid rgba(29, 93, 235, 0.18);
+  position: relative;
+
+  arm-search {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: -60px;
+    right: 0;
+    max-width: calc(100% - 100px);
+    width: 100%;
+  }
+
+  arm-chat-list-short {
+    border-right: 1px solid rgba(29, 93, 235, 0.18);
+  }
+
+  .dynamic-chat-component {
+    width: 100%;
+  }
+}

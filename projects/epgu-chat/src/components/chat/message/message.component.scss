@@ -1,0 +1,242 @@
+$blue: #0D4CD3;
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  .messages {
+    height: calc(100vh - 231px - 80px);
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+
+    .messages-spinner {
+      position: absolute;
+      bottom: 100px;
+      left: calc(50% - 30px);
+    }
+  }
+
+  .checkbox-on {
+    padding: 10px 10px 10px 50px;
+    height: calc(100vh - 231px - 80px - 64px);
+  }
+
+  .button-panel {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-height: 100px;
+    padding: 10px 20px 10px;
+    border-top: 1px solid rgba(29, 93, 235, 0.18);
+    box-sizing: border-box;
+    position: relative;
+
+    .attach-button, .enter-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 52px;
+      height: 52px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .attach-button {
+      border: 2px solid $blue;
+      margin-right: 20px;
+
+      .counter {
+        background-color: #0D4CD3;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        animation-duration: 500ms;
+        animation-name: counter;
+
+        @keyframes counter {
+          from {
+            opacity: 0;
+          }
+
+          to {
+            opacity: 1;
+          }
+        }
+      }
+
+      label {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      #file-input {
+        display: none;
+      }
+    }
+
+    .enter-button {
+      background-color: #E5EAF5;
+    }
+
+    .active-enter-button {
+      background-color: $blue;
+    }
+
+    arm-entry-field {
+      width: calc(100% - 52px - 20px - 52px - 20px);
+      margin-right: 20px;
+    }
+
+    .poll-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 100px;
+
+      span {
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Lato', sans-serif;
+        color: #0B1F33;
+      }
+
+      span:last-child {
+        color: $blue;
+        cursor: pointer;
+      }
+
+      span:focus {
+        outline: 0;
+      }
+    }
+  }
+}
+
+.checked-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
+  border-top: 1px solid rgba(29, 93, 235, 0.18);
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+
+    li {
+      padding: 20px 10px 20px 20px;
+      color: #D1D5DF;
+    }
+  }
+
+  span {
+    margin-left: 12px;
+  }
+
+  span, li {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+  }
+}
+
+.checked-message-active-button {
+  color: $blue !important;
+}
+
+.file-upload {
+  position: absolute;
+  width: 100%;
+  bottom: 100%;
+  left: 0;
+  background-color: #fff;
+  padding: 17px 24px;
+  max-height: calc(100vh - 231px - 80px);
+  box-sizing: border-box;
+  border-top: 1px solid rgba(29, 93, 235, 0.18);
+  border-bottom: 1px solid rgba(29, 93, 235, 0.18);
+  animation-duration: 500ms;
+  animation-name: fileUpload;
+
+  @keyframes fileUpload {
+    from {
+      bottom: 0;
+      opacity: 0;
+    }
+
+    to {
+      bottom: 100%;
+      opacity: 1;
+    }
+  }
+}
+
+.jump-buttons {
+  width: 52px;
+  position: absolute;
+  bottom: 124px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+
+  div {
+    margin-bottom: 8px;
+  }
+  div:last-child {
+    margin-bottom: 0;
+  }
+
+  .go-to-button {
+    width: 52px;
+    height: 52px;
+    background: #0D4CD3;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    position: relative;
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+.red-indicator {
+  height: 16px;
+  width: 16px;
+  background: #EE3F58;
+  border-radius: 50%;
+  position:absolute;
+  top: 0;
+  right: 0;
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+}

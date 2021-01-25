@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class ChatsService {
 
+  public myMessage;
+
   constructor(private http: HttpClient) { }
 
   public getOptions(params?: any): any {
@@ -21,6 +23,9 @@ export class ChatsService {
   }
 
   public getChatsList(params: {scId: number | string; buildingIds: any}): Observable<any> {
+    console.warn('getChatsListInLib');
+    console.warn(this.myMessage);
+    
     return this.http.get('/api/chats/v1/sc/buildings/sc/chat', this.getOptions(params));
   }
 

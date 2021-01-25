@@ -13,18 +13,18 @@
 
     <div class="flex-space-between">
 
-      <lib-dropdown *ngIf="items && items.selectedRelevance"
-                    [items]="items.selectedRelevance"
-                    [formControlName]="'selectedRelevance'">
+      <lib-dropdown *ngIf="items && items.countSort"
+                    [items]="items.countSort"
+                    [formControlName]="'selectedCountSort'">
       </lib-dropdown>
 
-      <lib-dropdown *ngIf="items && items.selectedSort"
-                    [items]="items.selectedSort"
-                    [formControlName]="'selectedSort'">
+      <lib-dropdown *ngIf="items && items.fieldSort"
+                    [items]="items.fieldSort"
+                    [formControlName]="'selectedFieldSort'">
       </lib-dropdown>
 
-      <lib-lookup [formControlName]="'search'"
-                  [placeholder]="'Заголовок, номер, текст'">
+      <lib-lookup *ngIf="items && items.placeholder" [formControlName]="'search'"
+                  [placeholder]="items.placeholder">
       </lib-lookup>
 
     </div>

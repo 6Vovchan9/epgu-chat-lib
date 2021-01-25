@@ -8,7 +8,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DownloadComponent } from '../file/download/download.component';
+import { FileClass } from '../../../classes/file';
 
 @Component({
   selector: 'app-photo-preview',
@@ -32,7 +32,7 @@ export class PhotoPreviewComponent implements OnInit, AfterViewInit {
   }
 
   public downloadFile(): void {
-    DownloadComponent.saveAs({fileName: this.data.fileName, url: this.data.blobUrl});
+    FileClass.saveAs({fileName: this.data.fileName, url: this.data.blobUrl});
   }
 
   public ngOnInit(): void {

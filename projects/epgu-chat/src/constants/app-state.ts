@@ -8,6 +8,13 @@ export enum CurrentDisplayList {
   default = 'message',
 }
 
+export enum DescriptionPanelActionEnum {
+  edit = 'edit',
+  delete = 'delete',
+  copy = 'copy',
+  default = '',
+}
+
 export const appState: BehaviorSubject<AppStateInterface> = new BehaviorSubject<AppStateInterface>({
   settingsShow: true,
   mainContentDOMElementState: null,
@@ -24,6 +31,17 @@ export const appState: BehaviorSubject<AppStateInterface> = new BehaviorSubject<
     show: false,
     value: 0,
   }),
+  descriptionPanel: new BehaviorSubject<DescriptionPanelInterface>({
+    listElement: null,
+    action: DescriptionPanelActionEnum.default,
+  }),
+  userAgreement: new BehaviorSubject<UserAgreementInterface>({
+    show: true,
+    agree: false,
+  }),
+  navigationBar: new BehaviorSubject<{ disable: boolean }>({
+    disable: false,
+  }),
 });
 
 export interface AppStateInterface {
@@ -31,14 +49,34 @@ export interface AppStateInterface {
   mainContentDOMElementState?: null | MainContentDOMElementStateInterface;
   filters: BehaviorSubject<AppStateFiltersInterface>;
   scId: number;
+  descriptionPanel: BehaviorSubject<DescriptionPanelInterface>;
   messages?: BehaviorSubject<MessagesStateInterface>;
   ad?: BehaviorSubject<AdInterface>;
+  emNumber?: BehaviorSubject<EmNumberInterface>;
   progressBar: BehaviorSubject<ProgressBarInterface>;
+  buildingList?: BehaviorSubject<BuildingListInterface>,
+  userAgreement: BehaviorSubject<UserAgreementInterface>,
+  navigationBar: BehaviorSubject<{ disable: boolean }>;
+}
+
+export interface UserAgreementInterface {
+  show: boolean;
+  agree: boolean;
+}
+
+export interface DescriptionPanelInterface {
+  listElement: any,
+  action: DescriptionPanelActionEnum,
 }
 
 export interface ProgressBarInterface {
   show: boolean;
   value: number;
+}
+
+export interface BuildingListInterface {
+  checkboxOn: boolean;
+  buildingIds?: string[];
 }
 
 export interface AdInterface {
@@ -49,15 +87,21 @@ export interface AdInterface {
     dateStart: Date,
     dateEnd: Date,
   };
-  buildings?: string[];
-  checkboxOn?: BehaviorSubject<boolean>;
   change?: boolean;
   bmId?: number;
 }
 
+export interface EmNumberInterface {
+  emNumberName: string;
+  emNumber?: string;
+  checkboxOn?: BehaviorSubject<boolean>;
+  change?: boolean;
+  emNumberId?: number;
+}
+
 export interface AdFileInterface {
-  value?: File;
-  fileId?: string;
+  value?: File | any;
+  id?: string;
   loadStatus?: StatusEnum;
 }
 
@@ -160,3 +204,4 @@ export enum StatusEnum {
   notLoaded = 'notLoaded',
   default = '',
 }
+

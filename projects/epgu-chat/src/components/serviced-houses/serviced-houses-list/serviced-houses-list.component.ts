@@ -9,10 +9,10 @@ import {
   ServicedHousesListBuildingsContInterface,
   ServicedHousesListBuildingsInterface,
 } from '../../../services/serviced-houses-list/serviced-houses-list.service';
-import { overviewPageFilter, OverviewPageFilterInterface } from '../../../constants/filter.conts';
+import { overviewPageFilter, MainFilterInterface } from '../../../constants/filter.conts';
 import { EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { appState } from '../../../constants/app-state';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { appState, AppStateInterface, BuildingListInterface } from '../../../constants/app-state';
 
 @Component({
   selector: 'arm-serviced-houses-list',
@@ -24,7 +24,7 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
   private servicedHousesListPrivate: ServicedHousesListBuildingsInterface;
 
   private subscriptions: Subscription = new Subscription();
-  public items: OverviewPageFilterInterface = overviewPageFilter;
+  public items: MainFilterInterface = overviewPageFilter;
   public checkboxOn: boolean = false;
   public checkBuildings: {[buildingIndex: number]: boolean};
   public allBuildingsCheckedPrivate: boolean;
@@ -38,15 +38,10 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
   set servicedHousesList(value: ServicedHousesListBuildingsInterface) {
     this.servicedHousesListPrivate = value;
 
-    if (this.checkboxOn && value && value.contents) {
+    if (appState.getValue().buildingList && appState.getValue().buildingList.getValue().checkboxOn && value && value.contents) {
 
-      value.contents.forEach((item: ServicedHousesListBuildingsContInterface) => {
-        if (this.checkBuildings[item.id]) { return; }
+      this.checkBuildingsInit();
 
-        this.checkBuildings[item.id] = this.allBuildingsChecked;
-      });
-
-      this.setAdState();
     }
 
     this.cd.detectChanges();
@@ -58,11 +53,40 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
 
   set allBuildingsChecked(value: boolean) {
     this.allBuildingsCheckedPrivate = value;
+
     this.cd.detectChanges();
   }
 
   get allBuildingsChecked(): boolean {
     return this.allBuildingsCheckedPrivate;
+  }
+
+  public checkBuildingsInit(): void {
+
+    if (!this.servicedHousesList || !this.servicedHousesList.contents || !this.servicedHousesList.contents.length) { return; }
+
+    this.servicedHousesList.contents.forEach((item: ServicedHousesListBuildingsContInterface) => {
+      if (!this.checkBuildings[item.id] && this.checkBuildings[item.id] !== false) {
+        this.checkBuildings[item.id] = false;
+      }
+    });
+
+    const buildingIds: string[] = appState.getValue().buildingList.getValue().buildingIds;
+
+    console.warn(buildingIds);
+    
+    buildingIds.forEach((buildingId: string) => {
+      this.checkBuildings[buildingId] = true;
+    })
+
+    const index = Object.keys(this.checkBuildings).findIndex((key: string) => this.checkBuildings[key] !== true);
+
+    this.allBuildingsChecked = !(index >= 0);
+
+    this.cd.detectChanges();
+
+    this.setBuildingListState();
+
   }
 
   public setAllBuildingsChecked(): void {
@@ -73,8 +97,7 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
       this.checkBuildings[key] = this.allBuildingsChecked;
     });
 
-    this.cd.detectChanges();
-
+    this.setBuildingListState();
   }
 
   public setActiveElement(house): void {
@@ -83,68 +106,58 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
     this.activeElementEmit.emit(house);
   }
 
+  public checkBuilding(buildingId: number): void {
+
+    this.checkBuildings[buildingId] = !this.checkBuildings[buildingId];
+
+    const index = Object.keys(this.checkBuildings).findIndex((key: string) => this.checkBuildings[key] !== true);
+
+    this.allBuildingsChecked = !(index >= 0);
+
+    this.setBuildingListState();
+  }
+
+  public setBuildingListState(): void {
+    const buildingListStateCopy = appState.getValue().buildingList.getValue();
+
+    buildingListStateCopy.buildingIds = Object.keys(this.checkBuildings).filter((key: string) => this.checkBuildings[key] === true);
+    appState.getValue().buildingList.next(buildingListStateCopy);
+
+    this.cd.detectChanges();
+  }
+
   public trackByFn(index): number {
     return index;
   }
 
-  public checkBuilding(buildingId: number): void {
-
-    if (this.checkBuildings.hasOwnProperty(buildingId)) {
-      this.checkBuildings[buildingId] = !this.checkBuildings[buildingId];
-
-      const index = Object.keys(this.checkBuildings).findIndex((key: string) => this.checkBuildings[key] === false);
-      this.allBuildingsChecked = !(index >= 0);
-
-      this.setAdState();
-
-      return;
-    }
-
-    this.checkBuildings[buildingId] = true;
-
-    this.setAdState();
-  }
-
-  public setAdState(): void {
-    const adStateCopy = appState.getValue().ad.getValue();
-
-    adStateCopy.buildings = Object.keys(this.checkBuildings).filter((key: string) => this.checkBuildings[key] === true);
-    appState.getValue().ad.next(adStateCopy);
-  }
-
   public ngOnInit(): void {
 
-    if (appState.getValue().ad) {
+    this.checkBuildings = {};
 
-      const adStateCopy = appState.getValue().ad.getValue();
+    const appStateCopy: AppStateInterface = appState.getValue();
 
-      if (!adStateCopy.checkboxOn || !adStateCopy.checkboxOn.getValue()) { return; }
+    if (!appState.getValue().buildingList) {
 
-      this.checkBuildings = {};
+      appStateCopy.buildingList = new BehaviorSubject<BuildingListInterface>({
+        checkboxOn: false,
+        buildingIds: [],
+      });
 
-      this.checkboxOn = adStateCopy.checkboxOn.getValue();
-
-      if (Array.isArray(adStateCopy.buildings) && adStateCopy.buildings.length) {
-
-        this.allBuildingsChecked = false;
-
-        adStateCopy.buildings.forEach(id => this.checkBuildings[id] = true);
-
-        this.cd.detectChanges();
-
-      } else {
-
-        this.allBuildingsChecked = true;
-
-      }
-
-      this.subscriptions.add(
-        adStateCopy.checkboxOn
-          .subscribe((value) => {
-            this.checkboxOn = value;
-          })
-      );
+      appState.next(appStateCopy);
     }
+
+    this.subscriptions.add(
+      appState.getValue().buildingList
+        .subscribe((value) => {
+
+          if (this.checkboxOn === value.checkboxOn) { return; }
+
+          this.checkboxOn = value.checkboxOn;
+
+          this.checkBuildingsInit();
+
+        })
+    );
 
   }
 

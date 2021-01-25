@@ -12,7 +12,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
-import { overviewPageFilter, OverviewPageFilterInterface } from '../../constants/filter.conts';
+import { overviewPageFilter, MainFilterInterface } from '../../constants/filter.conts';
 import { appState, AppStateInterface } from '../../constants/app-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { toastrConfig } from '../../constants/notifications';
@@ -31,7 +31,7 @@ export class ServicedHousesComponent implements OnInit, OnDestroy {
 
   public searchProvider = this.servicedHousesListService.getSearchBuildingList({managementCompanyId: 21});
   public formGroup: FormGroup;
-  public items: OverviewPageFilterInterface = overviewPageFilter;
+  public items: MainFilterInterface = overviewPageFilter;
   public paginatorConfig: PaginatorInterface;
   public countSortControl: { pageSize: number } = {
     pageSize: 10,
@@ -219,3 +219,4 @@ export interface PaginatorInterface {
   pageSize: number;
   activePage: number;
 }
+

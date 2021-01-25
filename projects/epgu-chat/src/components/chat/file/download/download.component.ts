@@ -11,9 +11,10 @@ import {
 import { SelectedMessageListInterface } from '../../../../constants/app-state';
 import { FileService } from '../../../../services/file/file.service';
 import { of, Subscription } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoPreviewComponent } from '../../photo-preview/photo-preview.component';
+import { FileClass } from '../../../../classes/file';
 
 @Component({
   selector: 'arm-download',
@@ -35,7 +36,7 @@ export class DownloadComponent implements OnInit, AfterViewInit {
   set message(value: SelectedMessageListInterface) {
     this.messagePrivate = value;
     console.warn(value);
-    
+
     this.cd.detectChanges();
   }
 
@@ -58,26 +59,7 @@ export class DownloadComponent implements OnInit, AfterViewInit {
 
   static saveFile(data: any, fileType: string, fileName: string): void {
     let blob = new Blob([data], { type: fileType });
-    DownloadComponent.saveAs({blob, fileName});
-  }
-
-  static saveAs(params: {fileName: string, blob?: any, url?: string}) {
-
-    if (params.blob && !params.url) {
-      params.url = window.URL.createObjectURL(params.blob);
-    } else if (!params.blob && !params.url) {
-      return;
-    }
-
-    let el = document.createElement('a');
-    el.style.display = 'none';
-    el.href = params.url;
-    el.download = params.fileName;
-
-    document.body.appendChild(el);
-    el.click();
-
-    document.body.removeChild(el);
+    FileClass.saveAs({blob, fileName});
   }
 
   public openPicture(): void {
@@ -120,7 +102,6 @@ export class DownloadComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
 
     this.subscriptions.add(
-      
       this.fileService.fileDownload({scId: this.scId, fileUrl: this.message.messageContent.url})
         .pipe(
           catchError((err) => {
@@ -144,3 +125,4 @@ export class DownloadComponent implements OnInit, AfterViewInit {
   }
 
 }
+

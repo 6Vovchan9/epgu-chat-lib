@@ -1,6 +1,7 @@
 import { FilterInterface } from '../interfaces/intarfaces';
+import { FilterPlaceHolderEnum } from '../enums/filter.enum';
 
-export const overviewPageFilter: OverviewPageFilterInterface = {
+export const overviewPageFilter: MainFilterInterface = {
   countSort: [
     {
       id: 1,
@@ -40,32 +41,29 @@ export const overviewPageFilter: OverviewPageFilterInterface = {
       text: 'По добавлению дома',
     },
   ],
+  placeholder: FilterPlaceHolderEnum.OverviewPlaceholderFilter,
 };
 
-export interface OverviewPageFilterInterface {
-  countSort: FilterInterface[];
-  fieldSort: FilterInterface[];
-}
-
-export const adsPageFilter: AdsPageFilterInterface = {
-  selectedRelevance: [
+export const emNumbersPageFilter: MainFilterInterface = {
+  countSort: overviewPageFilter.countSort,
+  fieldSort: [
     {
       id: 1,
-      value: 'isViewActive',
-      text: 'Только актуальные',
+      value: 'ASC',
+      text: 'По алфавиту А-Я',
     },
     {
       id: 2,
-      value: 'isViewInactive',
-      text: 'Только неактуальные',
-    },
-    {
-      id: 3,
-      value: 'all',
-      text: 'Все',
+      value: 'phone',
+      text: 'По номеру телефона',
     },
   ],
-  selectedSort: [
+  placeholder: FilterPlaceHolderEnum.EmNumbersPlaceholderFilter,
+};
+
+export const adsPageFilter: MainFilterInterface = {
+  countSort: overviewPageFilter.countSort,
+  fieldSort: [
     {
       id: 1,
       value: 'activityDate',
@@ -77,9 +75,11 @@ export const adsPageFilter: AdsPageFilterInterface = {
       text: 'По дате создания',
     },
   ],
+  placeholder: FilterPlaceHolderEnum.AdsPlaceholderFilter,
 };
 
-export interface AdsPageFilterInterface {
-  selectedRelevance: FilterInterface[];
-  selectedSort: FilterInterface[];
+export interface MainFilterInterface {
+  countSort: FilterInterface[];
+  fieldSort: FilterInterface[];
+  placeholder: FilterPlaceHolderEnum;
 }

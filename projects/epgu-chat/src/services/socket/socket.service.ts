@@ -34,7 +34,7 @@ export class SocketService {
         return;
       }
 
-      this.socket = new WebSocket(`${'wss://gudom-uat.test.gosuslugi.ru/chats/ws/chat'}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
+      this.socket = new WebSocket(`${'wss://gudom-dev.test.gosuslugi.ru/chats/ws/chat'}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
       // this.socket = new WebSocket(`${environment.wss}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
 
       this.socket.onopen = (e: Event) => {

@@ -1,6 +1,6 @@
 {
   "name": "epgu-chat-lib",
-  "version": "1.0.22",
+  "version": "1.0.27",
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4"

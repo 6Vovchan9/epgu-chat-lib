@@ -6,7 +6,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { NewPollComponent } from './chat-page/new-poll/new-poll.component';
 
 const routes: Routes = [{
-  path: '',
+  path: 'chats', // можно ''
   component: ChatsPageComponent,
   children: [
     {

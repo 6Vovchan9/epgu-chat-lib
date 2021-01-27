@@ -14,10 +14,12 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    const chatRest = request.url.startsWith('/api/chats/v1/sc') || request.url.startsWith('/api/lk/v1/sc')
+
     const req = request.clone({
       setHeaders: {
         accept: '*/*',
-        Authorization: `Bearer ${localStorage.getItem('ARM_AUTH_TOKEN')}`,
+        Authorization: `Bearer ${chatRest ? localStorage.getItem('ARM_AUTH_TOKEN') : sessionStorage.getItem('accessToken')}`,
       },
     });
 

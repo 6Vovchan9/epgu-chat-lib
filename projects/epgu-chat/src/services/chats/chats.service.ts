@@ -8,8 +8,11 @@ import { Observable } from 'rxjs';
 export class ChatsService {
 
   public myMessage;
+  public buildingId;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    setTimeout(()=> console.warn(this.myMessage), 2000)
+  }
 
   public getOptions(params?: any): any {
     if (params) {
@@ -25,8 +28,11 @@ export class ChatsService {
   public getChatsList(params: {scId: number | string; buildingIds: any}): Observable<any> {
     console.warn('getChatsListInLib');
     console.warn(this.myMessage);
-    
-    return this.http.get('/api/chats/v1/sc/buildings/sc/chat', this.getOptions(params));
+    if (this.buildingId) {
+      return this.http.get(`/api/chats/v1/admin/building/${this.buildingId}/chats`);
+    } else {
+      return this.http.get('/api/chats/v1/sc/buildings/sc/chat', this.getOptions(params));
+    }
   }
 
   public getChatMessages(params: any): Observable<any> {

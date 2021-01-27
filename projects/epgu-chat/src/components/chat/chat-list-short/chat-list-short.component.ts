@@ -129,18 +129,20 @@ export class ChatListShortComponent implements OnInit, AfterViewInit, OnDestroy 
               scId: this.scId,
             };
 
-            let buildingIds = [];
+            let buildingIds: number[];
 
             const filtersStateCopy = appState.getValue().filters.getValue();
 
-            if (filtersStateCopy && filtersStateCopy.chatFilter) {
+            if (filtersStateCopy && filtersStateCopy.chatFilter && Array.isArray(filtersStateCopy.chatFilter.buildingIds)) {
               buildingIds = filtersStateCopy.chatFilter.buildingIds;
+            } else if (this.servicedHousesList && Array.isArray(this.servicedHousesList.contents)) {
+              buildingIds = this.servicedHousesList.contents.map((house: ServicedHousesListBuildingsContInterface) => house.id);
             }
 
             if (Array.isArray(buildingIds) && buildingIds.length) {
               chatParams.buildingIds = buildingIds.join();
             }
-
+            
             return this.chatsService.getChatsList(chatParams);
           }),
           catchError((err) => {

@@ -36,7 +36,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       total: 0,
     };
 
-    chatList.forEach((item: {id: number; buildingId: number, address: string, createdDateTime: number}) => {
+    chatList.forEach((item: {id: number; buildingId: number, address: string, createdDateTime: number, chatType: string, title: string, sc: string}) => {
       const servicedHousesListContents = servicedHousesList.contents;
       const index = servicedHousesListContents.findIndex(building => building.id === item.buildingId);
 
@@ -51,6 +51,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       } else {
         chatListParse.contents.push({
           chatId: item.id,
+          chatType: item.chatType,
+          sc: item.sc,
+          title: item.title,
           address: item.address,
           createdDateTime: item.createdDateTime,
         });

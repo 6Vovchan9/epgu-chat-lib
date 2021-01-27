@@ -7,10 +7,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { NewCompComponent } from './pages/new-comp/new-comp.component';
+// import { ChatsPageModule } from 'dist/epgu-chat';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    // NewCompComponent
   ],
   imports: [
     BrowserModule,
@@ -18,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     ListModule,
     BorderModule,
+    // ChatsPageModule
   ],
   providers: [
     {

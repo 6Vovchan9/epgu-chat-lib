@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ChatsService } from '../../services/chats/chats.service';
 
 @Component({
   selector: 'arm-chats-page',
@@ -8,8 +9,17 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class ChatsPageComponent implements OnInit {
 
-  constructor() { }
+  @Input() text: string = 'fakeMy';
 
-  public ngOnInit(): void {}
+  constructor(
+    private chatsService: ChatsService
+  ) { }
+
+  public ngOnInit(): void {
+    console.warn(this.text);
+    // this.chatsService.myMessage = this.text;
+    // setTimeout(()=> this.chatsService.myMessage = this.text, 2000);
+    // setTimeout(()=> console.warn('Hi',this.text), 4000);
+  }
 
 }

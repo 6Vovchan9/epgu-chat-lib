@@ -10,7 +10,8 @@ import { ChatsService } from '../../../services/chats/chats.service';
 export class ListComponent implements OnInit {
   
   @Input() list: string[];
-  @Input() text: string = 'fake';
+  @Input() text: string = 'ChatsService';
+  @Input() buildId: number = null;
 
   constructor(
     private chatsService: ChatsService
@@ -20,5 +21,9 @@ export class ListComponent implements OnInit {
     console.warn(this.text);
     
     this.chatsService.myMessage = this.text;
+    if (this.buildId) {
+      console.warn('buildId: ', this.buildId);
+      this.chatsService.buildingId = this.buildId;
+    }
   }
 }

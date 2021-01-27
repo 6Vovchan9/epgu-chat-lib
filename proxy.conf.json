@@ -6,31 +6,31 @@
     "changeOrigin": true
   },
   "/api/lk/v1": {
-    "target": "https://gudom-uat.test.gosuslugi.ru/",
+    "target": "https://gudom-dev.test.gosuslugi.ru/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/api/chats/v1": {
-    "target": "https://gudom-uat.test.gosuslugi.ru/",
+    "target": "https://gudom-dev.test.gosuslugi.ru/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/api/file/v1": {
-    "target": "https://gudom-uat.test.gosuslugi.ru/",
+    "target": "https://gudom-dev.test.gosuslugi.ru/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/chats/ws": {
-    "target": "wss://gudom-uat.test.gosuslugi.ru",
+    "target": "wss://gudom-dev.test.gosuslugi.ru",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/s3": {
-    "target": "https://gudom-uat.test.gosuslugi.ru/",
+    "target": "https://gudom-dev.test.gosuslugi.ru/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

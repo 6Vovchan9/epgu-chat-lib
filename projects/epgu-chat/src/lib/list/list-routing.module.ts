@@ -8,7 +8,7 @@ export function getChatsPageModule() {
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'management-company', // можно ''
     loadChildren: getChatsPageModule
   }
 ];

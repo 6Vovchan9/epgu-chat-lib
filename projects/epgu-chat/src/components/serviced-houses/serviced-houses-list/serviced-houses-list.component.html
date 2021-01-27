@@ -11,18 +11,19 @@
     </div>
   </div>
 
-  <div *ngFor="let house of servicedHousesList.contents; trackBy: trackByFn;"
-       class="list-element"
-       [ngClass]="{'arrow' : !checkboxOn}"
-       (click)="setActiveElement(house)">
-
+  <div
+    *ngFor="let house of servicedHousesList.contents; trackBy: trackByFn;"
+    class="list-element"
+    [ngClass]="{'arrow' : !checkboxOn}"
+    (click)="setActiveElement(house)"
+  >
+    <div *ngIf="house.title">{{house.title || 'Тип чата'}}</div>
     <div>
-
-      <lib-checkbox *ngIf="checkboxOn" (change)="checkBuilding(house.id)" [checked]="checkBuildings[house.id]"></lib-checkbox>
-
-      <span *ngIf="house.address" class="address">{{house.address}}</span>
-
+      <lib-checkbox *ngIf="checkboxOn" (change)="checkBuilding(house.id)" [checked]="checkBuildings[house.id]">
+      </lib-checkbox>
+      <span *ngIf="house.address && !house.sc" class="address">{{house.address}}</span>
     </div>
+    <div *ngIf="house.sc">{{house.sc || 'Название УК'}}</div>
     <span *ngIf="house.cadaster" class="cadastral-number">{{house.cadaster}}</span>
   </div>
 </div>

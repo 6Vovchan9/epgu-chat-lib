@@ -74,5 +74,8 @@ export interface ServicedHousesListBuildingsContInterface {
   address: string;
   cadaster?: string;
   chatId?: number;
+  sc?: string;
+  title?: string;
+  chatType?: string;
   createdDateTime?: number; // Todo: разбить на несколько интерфейсов
 }

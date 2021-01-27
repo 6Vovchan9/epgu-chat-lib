@@ -23,6 +23,9 @@ import { NewPollModule } from './chat-page/new-poll/new-poll.module';
     ChatPageModule,
     NewPollModule,
   ],
+  exports: [
+    ChatsPageComponent
+  ],
   providers: [
     SocketService,
   ],

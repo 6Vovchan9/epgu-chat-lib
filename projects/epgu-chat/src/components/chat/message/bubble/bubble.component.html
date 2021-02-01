@@ -1,11 +1,11 @@
 <ng-container *ngIf="message">
 
   <div class="message-container"
-       [ngStyle]="{'justify-content' : (message.user.id | plus) === (scId | plus) && message.type !== 'JOIN' ? 'flex-end' : message.type === 'JOIN' ? 'center' : 'flex-start'}">
+       [ngStyle]="{'justify-content' : (message.user.id | plus) === (scId | plus) && message.type !== 'JOIN' && !chatsService.userAdmin ? 'flex-end' : message.type === 'JOIN' ? 'center' : 'flex-start'}">
 
     <ng-template *ngIf="messageState && messageState.messageCheckboxOn; then checkbox"></ng-template>
 
-    <div [ngClass]="{user : (message.user.id | plus) === (scId | plus) && message.type !== 'JOIN',
+    <div [ngClass]="{user : (message.user.id | plus) === (scId | plus) && message.type !== 'JOIN' && !chatsService.userAdmin,
     'join-message' : message.type === 'JOIN'}"
          class="message"
          (contextmenu)="onRightClick($event)"
@@ -14,7 +14,7 @@
       <ng-template *ngIf="message.type === 'JOIN'; then joinUser"></ng-template>
 
       <span
-        *ngIf="message.user && message.user.firstName && (message.user.id | plus) !== (scId | plus) || message.type === 'JOIN'"
+        *ngIf="message.user && message.user.firstName && (message.user.id | plus) !== (scId | plus) || message.type === 'JOIN' || chatsService.userAdmin"
         class="first-name">{{message.user.firstName}} {{message.user.lastName}}</span>
 
       <ng-template *ngIf="message.replyMessage; then replyMessage"></ng-template>
@@ -26,7 +26,12 @@
         *ngIf="message.type && fileFormats.indexOf(message.type) >= 0 && message.status !== 'notLoaded'; then fileTemplate"></ng-template>
 
       <span *ngIf="message.messageContent && message.messageContent.text && fileFormats.indexOf(message.type) < 0"
-            class="message-content" [innerHTML]="replaceOID(message.messageContent.text, message.mentionedUsers) | linkify"></span>
+        class="message-content"
+        [innerHTML]="replaceOID(message.messageContent.text, message.mentionedUsers) | linkify"></span>
+      
+      <span *ngIf="message.type === 'REMOVED_BY_MODERATOR'" class="message-content">
+        Сообщение удалено модератором
+      </span>
 
       <div
         *ngIf="message.type === 'POLL' && message.messageContent && message.messageContent.question && message.messageContent.answers"
@@ -56,20 +61,20 @@
       <div class="status">
 
         <ng-template
-          *ngIf="message.status === 'unsent' && fileFormats.indexOf(message.type) < 0; then unsent"></ng-template>
+          *ngIf="!chatsService.userAdmin && message.status === 'unsent' && fileFormats.indexOf(message.type) < 0; then unsent"></ng-template>
         <ng-template
-          *ngIf="(message.status === 'sent' || !message.status) && message.type !== 'JOIN' && (message.user.id | plus) === (scId | plus); then sent"></ng-template>
+          *ngIf="!chatsService.userAdmin && (message.status === 'sent' || !message.status) && message.type !== 'JOIN' && (message.user.id | plus) === (scId | plus); then sent"></ng-template>
 
         <span
           *ngIf="message.dateTime && (fileFormats.indexOf(message.type) < 0 || fileFormats.indexOf(message.type) >= 0 && message.status !== 'notLoaded')"
           class="date-time">
-        {{message.dateTime | messageDate }}
-      </span>
+          {{message.dateTime | messageDate }}
+        </span>
 
       </div>
 
-      <ng-template *ngIf="showMenu && (message.user.id | plus) !== (scId | plus) && message.type !== 'JOIN'; then menu"></ng-template>
-      <ng-template *ngIf="showMenu && (message.user.id | plus) === (scId | plus) && message.type !== 'JOIN'; then userMenu"></ng-template>
+      <ng-template *ngIf="showMenu && ((message.user.id | plus) !== (scId | plus) || chatsService.userAdmin) && message.type !== 'JOIN'; then menu"></ng-template>
+      <ng-template *ngIf="showMenu && (message.user.id | plus) === (scId | plus) && !chatsService.userAdmin && message.type !== 'JOIN'; then userMenu"></ng-template>
 
     </div>
 
@@ -78,11 +83,14 @@
 </ng-container>
 
 <ng-template #menu>
-  <ul *ngIf="showMenu && (message.user.id | plus) !== (scId | plus)"
+  <ul *ngIf="showMenu && ((message.user.id | plus) !== (scId | plus) || chatsService.userAdmin)"
       [ngClass]="{'menu-bottom-position': menuBottomPosition}"
       class="menu scroll-hidden">
-    <li (click)="setMessageAction('replyMessage')">Ответить</li>
-    <li (click)="messageCheckboxOn()">Выделить несколько</li>
+    <li *ngIf="!chatsService.userAdmin" (click)="setMessageAction('replyMessage')">Ответить</li>
+    <li *ngIf="!chatsService.userAdmin" (click)="messageCheckboxOn()">Выделить несколько</li>
+    <li *ngIf="message.type && fileFormats.indexOf(message.type) < 0 && chatsService.userAdmin"
+        (click)="setMessageAction('deleteMessage')">Удалить
+    </li>
   </ul>
 </ng-template>
 

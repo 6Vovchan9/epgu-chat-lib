@@ -137,12 +137,28 @@
       li:last-child {
         border-bottom: none;
       }
+
+      &.menu-bottom-position {
+        bottom: unset;
+        top: 0;
+        border-radius: 0 12px 12px 12px;
+      }
+
+      &.user-menu {
+        right: 0;
+        left: unset;
+        border-radius: 12px 12px 0 12px
+      }
+
+      &.user-menu.menu-bottom-position {
+        border-radius: 12px 0 12px 12px;
+      }
     }
   }
 
-  .message:hover {
-    opacity: 0.85;
-  }
+  // .message:hover {
+  //   opacity: 0.85;
+  // }
 
   .join-message {
     border-radius: 12px;
@@ -156,30 +172,24 @@
   }
 }
 
-.user-menu {
-  right: 0;
-  left: revert !important;
-  border-radius: 12px 12px 0 12px !important;
-  animation-duration: 300ms;
-  animation-name: userMenu;
+// .user-menu {
+//   right: 0;
+//   left: revert !important;
+//   border-radius: 12px 12px 0 12px !important;
+//   animation-duration: 300ms;
+//   animation-name: userMenu;
 
-  @keyframes userMenu {
-    from {
-      opacity: 0;
-    }
+//   @keyframes userMenu {
+//     from {
+//       opacity: 0;
+//     }
 
-    to {
-      opacity: 1;
-    }
-  }
+//     to {
+//       opacity: 1;
+//     }
+//   }
 
-}
-
-.menu-bottom-position {
-  top: 0;
-  bottom: revert !important;
-  z-index: 99;
-}
+// }
 
 lib-checkbox {
   position: absolute;

@@ -64,7 +64,7 @@
 
         <span>Количество опросов: {{this.messages.length}}</span>
 
-        <span routerLink="new-poll">Создать новый опрос</span>
+        <span *ngIf="!chatsService.userAdmin" routerLink="new-poll">Создать новый опрос</span>
 
       </div>
 

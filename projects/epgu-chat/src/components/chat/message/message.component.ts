@@ -1247,6 +1247,25 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
             return;
           }
+          case 'REMOVED_BY_MODERATOR': {
+
+            if (!socketMessage.id) {
+              return;
+            }
+
+            const messagesCopy = [...this.messages];
+
+            const index = messagesCopy.findIndex(item => item.id === socketMessage.id);
+
+            if (index < 0) { return; }
+
+            messagesCopy[index].type = socketMessage.type;
+            delete messagesCopy[index].messageContent;
+
+            this.messages = this.parseMessages(appState.getValue().messages.getValue().unsentMessages, messagesCopy);
+
+            return;
+          }
           case 'POLL_UPDATE': {
             const index = this.messages.findIndex(item => item.messageContent && item.messageContent.id && item.messageContent.id === socketMessage.messageContent.id);
 
@@ -1305,6 +1324,7 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscribeAppState();
 
+    if (!this.chatsService.userAdmin) {
     this.subscriptions.add(
       this.chatsService.getMentionList({chatId: this.chatId, filter: {scId: this.scId}})
         .pipe(
@@ -1330,6 +1350,7 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
         })
     );
+    }
 
     this.subscriptions.add(
       appState.getValue().filters

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 // import { environment } from 'src/environments/environment';
+import { ChatsService } from '../chats/chats.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class SocketService {
   public token: string;
   public scId: string;
 
-  constructor() {
+  constructor(
+    private chatsService: ChatsService
+  ) {
     this.token = localStorage.getItem('ARM_AUTH_TOKEN');
     this.scId = localStorage.getItem('SC_ID');
   }
@@ -34,7 +37,8 @@ export class SocketService {
         return;
       }
 
-      this.socket = new WebSocket(`${'wss://gudom-dev.test.gosuslugi.ru/chats/ws/chat'}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
+      this.socket = new WebSocket(`wss://${document.location.host.includes('localhost') ? 'gudom-dev.test.gosuslugi.ru' : document.location.host}/chats/ws/chat/${chatId}?authorization=${this.chatsService.userAdmin ? sessionStorage.getItem('accessToken') : this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
+      // this.socket = new WebSocket(`${'wss://gudom-dev.test.gosuslugi.ru/chats/ws/chat'}/${chatId}?authorization=${this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
       // this.socket = new WebSocket(`${environment.wss}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
 
       this.socket.onopen = (e: Event) => {

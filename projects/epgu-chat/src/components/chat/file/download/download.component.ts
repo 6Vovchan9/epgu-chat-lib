@@ -35,7 +35,6 @@ export class DownloadComponent implements OnInit, AfterViewInit {
   @Input()
   set message(value: SelectedMessageListInterface) {
     this.messagePrivate = value;
-    console.warn(value);
 
     this.cd.detectChanges();
   }

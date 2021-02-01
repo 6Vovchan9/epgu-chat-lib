@@ -318,8 +318,11 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public send(state?: MessagesStateInterface): void {  // Todo: разбить
-    if (!state && this.form.invalid && !this.fileToUpload.length) { return; }
 
+    if (!state && this.form.invalid && !this.fileToUpload?.length) { return; }
+
+    if (this.form.controls.messageContent.disabled) {return;}
+    
     const fileValid = this.fileValid(this.fileToUpload);
 
     if (fileValid && !fileValid.result) {
@@ -328,7 +331,7 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    if (this.fileToUpload && this.fileToUpload.length) {
+    if (this.fileToUpload && this.fileToUpload?.length) {
       const fileToUploadCopy = [...this.fileToUpload];
       this.sendFiles(fileToUploadCopy);
       this.fileToUpload = [];
@@ -514,8 +517,6 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
                 copyMessagesState.action = ActionEnum.default;
                 copyMessagesState.unsentMessages.splice(indexMessage, 1);
                 copyMessagesState.selectedMessageList = [];
-
-                console.warn('vrdtbdnubfg');
 
                 appState.getValue().messages.next(copyMessagesState);
                 appState.next(Object.assign({}, appState.getValue()));
@@ -1287,7 +1288,7 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.scId) { return; }
 
     this.form = this.fb.group({
-      messageContent: ['', [Validators.required, Validators.max(1000)]],
+      messageContent: [{value: '', disabled: this.chatsService.userAdmin}, [Validators.required, Validators.max(1000)]],
     });
 
     this.enterButtonActive = this.downloadButtonShow = false;

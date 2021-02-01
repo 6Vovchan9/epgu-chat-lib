@@ -13,6 +13,7 @@ import { ServicedHousesListBuildingsInterface } from '../../../services/serviced
 import { appState, CurrentDisplayList } from '../../../constants/app-state';
 import { MessageComponent } from '../../../components/chat/message/message.component';
 import { ParticipantsComponent } from '../../../components/chat/participants/participants.component';
+import { ChatsService } from '../../../services/chats/chats.service';
 
 @Component({
   selector: 'arm-chat-page',
@@ -47,6 +48,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
           address: servicedHousesListContents[index].address,
           cadaster: servicedHousesListContents[index].cadaster,
           createdDateTime: item.createdDateTime,
+          chatType: item.chatType,
+          title: item.title,
+          sc: item.sc
         });
       } else {
         chatListParse.contents.push({
@@ -66,6 +70,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   }
 
   constructor(private activateRoute: ActivatedRoute,
+              public chatsServ: ChatsService,
               private componentFactoryResolver: ComponentFactoryResolver,
               private router: Router) {
   }

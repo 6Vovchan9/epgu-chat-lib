@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ChatsService } from '../chats/chats.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServicedHousesListService {
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(
+    private http: HttpClient,
+    private chatsServ: ChatsService
+  ) {}
 
   public getOptions(params?: any): any {
     if (params) {
@@ -23,7 +26,12 @@ export class ServicedHousesListService {
   }
 
   public getServicedHousesList(params: ServicedHousesListInterface): Observable<any> {
-    return this.http.get(`/api/lk/v1/sc/${params.managementCompanyId}/buildings/page`, this.getOptions(params.filter));
+    console.warn('Получение данных о МКД');
+    if (this.chatsServ.userAdmin) {
+      return this.http.post(`/api/lk/v1/admin/building/page`, {scId: params.managementCompanyId});
+    } else {
+      return this.http.get(`/api/lk/v1/sc/${params.managementCompanyId}/buildings/page`, this.getOptions(params.filter));
+    }
   }
 
   public getSearchBuildingList(params: ServicedHousesListInterface): any {

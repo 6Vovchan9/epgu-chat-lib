@@ -20,7 +20,7 @@
 
       <ng-template *ngIf="messageState && messageState.fileUpload && fileToUpload.length; then fileUpload"></ng-template>
 
-      <div class="attach-button">
+      <div [style.opacity]="chatsService.userAdmin ? '.3' : 1" class="attach-button">
 
         <div *ngIf="fileToUpload && fileToUpload.length" class="counter">{{fileToUpload.length}}</div>
 
@@ -35,6 +35,7 @@
 
         <input type="file"
                id="file-input"
+               [disabled]="chatsService.userAdmin"
                (change)="handleFileInput($event.target.files)"
                accept=".JPG, .PNG, .GIF, .AVI, .MP4, .3GP, .MPEG, .MOV, .MP3, .FLV, .WMV,.pdf, .doc, .xls, .docx, .xlsx, .txt, .pptx, .pages, .rtf, .ppt, .key, .xlsx, .numbers"
                multiple>

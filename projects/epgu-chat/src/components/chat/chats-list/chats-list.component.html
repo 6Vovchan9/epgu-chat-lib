@@ -2,7 +2,7 @@
 
   <h1>Чаты</h1>
 
-  <form *ngIf="formGroup" [formGroup]="formGroup">
+  <form *ngIf="formGroup && !chatsService.buildingId" [formGroup]="formGroup">
 
     <div class="house-filter flex-space-between" *ngIf="servicedHousesList">
       <lib-dropdown [items]="parseServicedHousesList"
@@ -15,8 +15,9 @@
 
   </form>
 
-  <arm-serviced-houses-list [servicedHousesList]="chatsList"
-                            (activeElementEmit)="openItem($event)">
+  <arm-serviced-houses-list
+    [servicedHousesList]="chatsList"
+    (activeElementEmit)="openItem($event)">
   </arm-serviced-houses-list>
 
   <arm-spinner *ngIf="loading" class="spinner"></arm-spinner>

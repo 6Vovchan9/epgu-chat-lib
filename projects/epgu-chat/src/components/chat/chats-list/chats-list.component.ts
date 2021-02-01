@@ -33,13 +33,12 @@ export class ChatsListComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
   public scId: string;
 
-  constructor(private chatsService: ChatsService,
+  constructor(public chatsService: ChatsService,
               private servicedHousesListService: ServicedHousesListService,
               private fb: FormBuilder,
               private snackBar: MatSnackBar,
               private router: Router,
-              private cd: ChangeDetectorRef) {
-  }
+              private cd: ChangeDetectorRef) {}
 
   set parseServicedHousesList(value: LibDropdownInterface[]) {
     this.parseServicedHousesListPrivate = value;
@@ -152,6 +151,10 @@ export class ChatsListComponent implements OnInit, OnDestroy {
         managementCompanyId: this.scId,
       })
         .pipe(
+          // tap(() => {
+          //   console.warn('Hello Bro1');
+            
+          // }),
           tap(() => this.loading = true),
           catchError((err) => {
             // console.warn(err);

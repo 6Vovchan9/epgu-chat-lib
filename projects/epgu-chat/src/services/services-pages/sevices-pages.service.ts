@@ -11,7 +11,9 @@ import { BehaviorSubject } from 'rxjs';
     public newServiceData = new BehaviorSubject<any>(null);
     public newServCreated = false;
   
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient
+    ) {
         const newServiceDataFromSS = sessionStorage.getItem('newServiceData');
 
         if (newServiceDataFromSS) {

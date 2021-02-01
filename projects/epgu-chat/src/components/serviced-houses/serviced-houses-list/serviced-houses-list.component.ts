@@ -73,7 +73,6 @@ export class ServicedHousesListComponent implements OnInit, OnDestroy {
 
     const buildingIds: string[] = appState.getValue().buildingList.getValue().buildingIds;
 
-    console.warn(buildingIds);
     
     buildingIds.forEach((buildingId: string) => {
       this.checkBuildings[buildingId] = true;

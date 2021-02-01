@@ -11,12 +11,10 @@ export class ChatsPageComponent implements OnInit {
 
   @Input() text: string = 'fakeMy';
 
-  constructor(
-    private chatsService: ChatsService
-  ) { }
+  constructor() {}
 
   public ngOnInit(): void {
-    console.warn(this.text);
+    // console.warn(this.text);
     // this.chatsService.myMessage = this.text;
     // setTimeout(()=> this.chatsService.myMessage = this.text, 2000);
     // setTimeout(()=> console.warn('Hi',this.text), 4000);

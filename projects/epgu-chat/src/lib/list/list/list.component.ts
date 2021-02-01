@@ -12,18 +12,18 @@ export class ListComponent implements OnInit {
   @Input() list: string[];
   @Input() text: string = 'ChatsService';
   @Input() buildId: number = null;
+  @Input() userAdmin: boolean = false;
 
   constructor(
     private chatsService: ChatsService
   ) {}
 
   ngOnInit() {
-    console.warn(this.text);
-    
     this.chatsService.myMessage = this.text;
-    if (this.buildId) {
+    // if (this.buildId) {
       console.warn('buildId: ', this.buildId);
       this.chatsService.buildingId = this.buildId;
-    }
+      this.chatsService.userAdmin = this.userAdmin;
+    // }
   }
 }

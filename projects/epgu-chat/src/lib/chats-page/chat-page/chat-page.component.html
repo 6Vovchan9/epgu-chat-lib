@@ -2,7 +2,7 @@
 
   <arm-search></arm-search>
 
-  <arm-chat-list-short></arm-chat-list-short>
+  <arm-chat-list-short *ngIf="!chatsServ.buildingId"></arm-chat-list-short>
 
   <div class="dynamic-chat-component">
     <ng-template #dynamicChatComponent></ng-template>

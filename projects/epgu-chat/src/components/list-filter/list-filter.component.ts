@@ -7,6 +7,7 @@ import {
 } from '../../services/serviced-houses-list/serviced-houses-list.service';
 import { Subscription } from 'rxjs';
 import { MainFilterInterface } from '../../constants/filter.conts';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'arm-list-filter',
@@ -55,6 +56,12 @@ export class ListFilterComponent implements OnInit {
 
     this.subscriptions.add(
       this.servicedHousesListService.getServicedHousesList({ managementCompanyId: this.scId })
+        // .pipe(
+        //   tap(() => {
+        //     console.warn('Hello Bro2');
+            
+        //   }),
+        // )
         .subscribe((val: ServicedHousesListBuildingsInterface) => {
 
           this.servicedHousesList = val.contents.map((item: ServicedHousesListBuildingsContInterface) => {

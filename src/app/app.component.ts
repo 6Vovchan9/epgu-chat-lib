@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-lib';
-
-  // list: string[] = ['Привет', 'Пока'];
 }

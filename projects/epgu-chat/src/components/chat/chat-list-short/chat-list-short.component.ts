@@ -121,6 +121,10 @@ export class ChatListShortComponent implements OnInit, AfterViewInit, OnDestroy 
         managementCompanyId: this.scId,
       })
         .pipe(
+          // tap(() => {
+          //   console.warn('Hello Bro3');
+            
+          // }),
           tap(() => this.loading = true),
           switchMap((servicedHousesList: any) => {
             this.servicedHousesList = servicedHousesList;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-// import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { ChatsService } from '../chats/chats.service';
 
 @Injectable({
@@ -32,14 +32,14 @@ export class SocketService {
 
   public connect(chatId: number) {
     return new Observable<SocketInterface>(observer => {
-      if (!this.token) {
+      if (!this.token && !this.chatsService.userAdmin) {
         observer.error({open: false, message: 'не передан token'});
         return;
       }
 
-      this.socket = new WebSocket(`wss://${document.location.host.includes('localhost') ? 'gudom-dev.test.gosuslugi.ru' : document.location.host}/chats/ws/chat/${chatId}?authorization=${this.chatsService.userAdmin ? sessionStorage.getItem('accessToken') : this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
+      // this.socket = new WebSocket(`wss://${document.location.host.includes('localhost') ? 'gudom-dev.test.gosuslugi.ru' : document.location.host}/chats/ws/chat/${chatId}?authorization=${this.chatsService.userAdmin ? sessionStorage.getItem('accessToken') : this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
       // this.socket = new WebSocket(`${'wss://gudom-dev.test.gosuslugi.ru/chats/ws/chat'}/${chatId}?authorization=${this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
-      // this.socket = new WebSocket(`${environment.wss}/${chatId}?authorization=${this.token}&scId=-${this.scId}`);
+      this.socket = new WebSocket(`${environment.wss}/${chatId}?authorization=${this.chatsService.userAdmin ? sessionStorage.getItem('accessToken') : this.token}&scId=-${this.scId}&admin=${this.chatsService.userAdmin}`);
 
       this.socket.onopen = (e: Event) => {
         observer.next({open: true, message: 'socket: соединение установлено'});

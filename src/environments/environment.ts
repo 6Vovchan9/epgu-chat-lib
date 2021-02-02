@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false,
+  name: 'local',
+  apiUrl: 'https://gudom-uat.test.gosuslugi.ru',
+  wss: 'wss://gudom-dev.test.gosuslugi.ru/chats/ws/chat',
+  imageSize: 500,
 };
 
 /*

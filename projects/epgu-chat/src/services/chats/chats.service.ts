@@ -24,6 +24,10 @@ export class ChatsService {
     return undefined;
   }
 
+  public getLinks() {
+    return this.http.get(`/api/lk/v1/info/links`);
+  }
+
   public getChatsList(params: {scId: number | string; buildingIds: any}): Observable<any> {
 
     if (this.buildingId) {

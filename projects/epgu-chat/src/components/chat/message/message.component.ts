@@ -1081,7 +1081,11 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     MessageComponent.setChatMentions(this.chatId);
     
-    this.subscriptions.add(this.socketService.connect(this.chatId)
+    this.chatsService.getLinks()
+      .subscribe(
+        val => {
+
+    this.subscriptions.add(this.socketService.connect(this.chatId, val['wssUrl'])
       .pipe(
         switchMap((value: SocketInterface) => {
           
@@ -1298,6 +1302,9 @@ export class MessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
       })
     );
+
+    }
+    )
 
   }
 
